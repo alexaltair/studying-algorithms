@@ -41,6 +41,7 @@ void print_linked_list(LinkedList * list){
     printf("]\n");
 }
 
+
 void shift(LinkedList * list){
     Node * root = list->root;
     if (root != NULL){
@@ -58,6 +59,7 @@ void unshift(LinkedList * list, int value){
     list->root = node;
     list->size++;
 }
+
 
 Node * nth_node(LinkedList * list, int index){
     if (index < 0 || list->size <= index){
@@ -78,6 +80,51 @@ int nth(LinkedList * list, int index){
     return node->value;
 }
 
+Node * last_node(LinkedList * list){
+    return nth_node(list, list->size - 1);
+}
+
+int last(LinkedList * list){
+    return nth(list, list->size - 1);
+}
+
+Node * first_node(LinkedList * list){
+    return nth_node(list, 0);
+}
+
+int first(LinkedList * list){
+    return nth(list, 0);
+}
+
+
+void pop(LinkedList * list){
+    Node * new_tail = nth_node(list, list->size - 2);
+    if (new_tail == NULL){
+        free(list->root);
+        list->root = NULL;
+        list->size = 0;
+    } else {
+        Node * old_tail = new_tail->next;
+        free(old_tail);
+        new_tail->next = NULL;
+        list->size --;
+    }
+}
+
+void push(LinkedList * list, int value){
+    Node * old_tail = last_node(list);
+    Node * new_tail = malloc(sizeof(Node));
+    new_tail->value = value;
+    new_tail->next = NULL;
+    if (old_tail == NULL){
+        list->root = new_tail;
+    } else {
+        old_tail->next = new_tail;
+    }
+    list->size++;
+}
+
+
 
 
 int main(){
@@ -85,23 +132,29 @@ int main(){
     init_linked_list(&my_linked_list);
 
     unshift(&my_linked_list, 12);
-    unshift(&my_linked_list, 3);
-    unshift(&my_linked_list, 15);
+
+    print_linked_list(&my_linked_list);
+    printf("size: %d\n", my_linked_list.size);
+
+    unshift(&my_linked_list, 1);
+
+    print_linked_list(&my_linked_list);
+    printf("size: %d\n", my_linked_list.size);
+
+    push(&my_linked_list, 3);
+
+    print_linked_list(&my_linked_list);
+    printf("size: %d\n", my_linked_list.size);
+
+    push(&my_linked_list, 4);
 
     print_linked_list(&my_linked_list);
     printf("size: %d\n", my_linked_list.size);
 
     shift(&my_linked_list);
+
     print_linked_list(&my_linked_list);
     printf("size: %d\n", my_linked_list.size);
-
-    unshift(&my_linked_list, 53);
-    print_linked_list(&my_linked_list);
-    printf("size: %d\n", my_linked_list.size);
-
-    int value = 2;
-    printf("\n%p\n", nth_node(&my_linked_list, value));
-    printf("value: %d\n", nth(&my_linked_list, value));
 
     return 0;
 }
