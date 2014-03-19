@@ -59,6 +59,25 @@ void unshift(LinkedList * list, int value){
     list->size++;
 }
 
+Node * nth_node(LinkedList * list, int index){
+    if (index < 0 || list->size <= index){
+        return NULL;
+    }
+    Node * node = list->root;
+    for (int i = 0; i < index; ++i){
+        node = node->next;
+    }
+    return node;
+}
+
+int nth(LinkedList * list, int index){
+    Node * node = nth_node(list, index);
+    if (node == NULL){
+        return 0;
+    }
+    return node->value;
+}
+
 
 
 int main(){
@@ -79,6 +98,10 @@ int main(){
     unshift(&my_linked_list, 53);
     print_linked_list(&my_linked_list);
     printf("size: %d\n", my_linked_list.size);
+
+    int value = 2;
+    printf("\n%p\n", nth_node(&my_linked_list, value));
+    printf("value: %d\n", nth(&my_linked_list, value));
 
     return 0;
 }
