@@ -8,7 +8,7 @@ typedef struct hash_table {
 
 void init_hash_table(Table * table, size_t size){
     table->size = size;
-    table->array = malloc(size);
+    table->array = malloc(size * sizeof(int));
 }
 
 int hash_function(size_t table_size, int key){
