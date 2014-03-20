@@ -55,10 +55,8 @@ int search(Table * table, int key){
     if (entry->key == 0){
         return 0;
     } else if (entry->key == key){
-        // printf("found key: %d\n", entry->key);
         return entry->value;
     } else {
-        // printf("found colliding key: %d\n", entry->key);
         while (entry != NULL && entry->key != key){
             entry = entry->collision;
         }
