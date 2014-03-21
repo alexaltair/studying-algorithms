@@ -1,5 +1,7 @@
 class Node
   attr_accessor :data, :children, :tree
+  alias :value :data
+  alias :value= :data=
 
   def initialize(data = nil, children = [])
     @data = data
@@ -60,19 +62,27 @@ end
 
 
 class Tree
-  attr_reader :root, :branches
+  attr_reader :root, :branches, :parent
   alias :forest :branches
 
   def initialize(root = nil, parent = nil, branches = [])
-    @root = root
+    @root =
+      if root.is_a? Node
+        root
+      elsif root.nil?
+        nil
+      else
+        Node.new(root)
+      end
+
     @parent = parent
     @branches = []
 
-    unless root.nil?
-      if root.children.empty?
+    unless @root.nil?
+      if @root.children.empty?
         @branches.concat(branches)
       else
-        root.children.each do |child|
+        @root.children.each do |child|
           @branches << Tree.new(child, self)
         end
       end
