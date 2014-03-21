@@ -110,11 +110,11 @@ class Tree
   def leaves
   end
 
-  def balance!
-  end
-
   def empty?
     self.root == nil
+  end
+
+  def highest_ancestor
   end
 
   def to_a
