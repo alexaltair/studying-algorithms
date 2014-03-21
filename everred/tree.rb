@@ -1,3 +1,4 @@
+require "./monkey_patches.rb"
 require "./tree_traversal.rb"
 
 class Tree
@@ -53,12 +54,11 @@ class Tree
   def max_depth
   end
 
-  # Returns an array of nodes.
   def leaves
   end
 
   def empty?
-    self.root == nil
+    self.root.nil? && self.branches.empty?
   end
 
   def height
@@ -95,28 +95,4 @@ class Tree
     array
   end
 
-end
-
-
-
-class Object
-  def to_tree(branches = [])
-    Tree.new(self, branches)
-  end
-end
-
-class Array
-  def to_branches
-    self.map(&:to_tree)
-  end
-  alias :to_tree :to_branches
-end
-
-class Hash
-  def to_branches
-    self.map do |k, v|
-      Tree.new(k, [*v.to_tree])
-    end
-  end
-  alias :to_tree :to_branches
 end
