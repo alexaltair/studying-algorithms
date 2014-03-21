@@ -1,10 +1,14 @@
-# This has not been tested at all.
-
 module Traversal
+  TRAVERSAL_ALGORITHMS = [
+    :breadth_first,
+    :depth_first,
+    :pre_order,
+    :post_order,
+  ]
+
   # Will return the first Node where node.value == value.
   def search_for(value, method = :breadth_first)
-    traversal_methods = [:breadth_first, :depth_first, :pre_order, :post_order]
-    if traversal_methods.include? method
+    if TRAVERSAL_ALGORITHMS.include? method
       self.send(method, value)
     else
       self.method_missing(method)
@@ -12,8 +16,7 @@ module Traversal
   end
 
   def pre_order(value)
-    return nil if self.root.nil?
-    return self.root if self.root.value == value
+    return self if self.root == value
     self.branches.each do |branch|
       in_branch = branch.pre_order(value)
       return in_branch if in_branch
@@ -23,22 +26,20 @@ module Traversal
   alias :depth_first :pre_order
 
   def post_order(value)
-    return nil if self.root.nil?
     self.branches.each do |branch|
-      in_branch = branch.pre_order(value)
+      in_branch = branch.post_order(value)
       return in_branch if in_branch
     end
-    return self.root if self.root.value == value
+    return self if self.root == value
     return nil
   end
 
   def breadth_first(value)
-    return nil if self.root.nil?
-    return self.root if self.root.value == value
-    untraversed_branches = self.branches
+    return self if self.root == value
+    untraversed_branches = Array.new(self.branches)
     while !untraversed_branches.empty?
       untraversed_branches.each do |branch|
-        return branch.root if branch.root.value == value
+        return branch if branch.root == value
       end
       untraversed_branches.map! do |branch|
         branch.branches

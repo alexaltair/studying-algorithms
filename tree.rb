@@ -1,103 +1,36 @@
-class Node
-  attr_accessor :data, :children, :tree
-  alias :value :data
-  alias :value= :data=
-
-  def initialize(data = nil, children = [])
-    @data = data
-    @children = children
-    @children.map! do |child|
-      if child.is_a? Node
-        child
-      elsif child.is_a? Tree
-        child.root
-      else
-        Node.new(child)
-      end
-    end
-  end
-
-  def inspect
-    string =    "#<Node: @data=#{self.data.inspect},"
-    if self.children.length < 2
-      string << " @children=#{self.children.inspect}>"
-    else
-      string << "\n  @children=[\n"
-      self.children.each do |child|
-        string << "    #{child.inspect}\n"
-      end
-      string << "  ]\n"
-      string << ">"
-    end
-    string
-  end
-
-  def to_tree(parent = nil)
-    Tree.new(self, parent)
-  end
-
-  def parent
-    self.tree.parent.root
-  end
-
-  def height
-    if self.children.empty?
-      0
-    else
-      self.children.map(&:height).max + 1
-    end
-  end
-
-  def depth
-    depth = 0
-    parent = self.parent
-    while parent != nil
-      parent = parent.parent
-      depth += 1
-    end
-    depth
-  end
-
-end
-
+require "./tree_traversal.rb"
 
 class Tree
+  include Traversal
+
   attr_reader :root, :branches, :parent
-  alias :forest :branches
+  alias :forest   :branches
+  alias :children :branches
 
-  def initialize(root = nil, parent = nil, branches = [])
-    @root =
-      if root.is_a? Node
-        root
-      elsif root.nil?
-        nil
-      else
-        Node.new(root)
-      end
-
-    @parent = parent
-    @branches = []
-
-    unless @root.nil?
-      if @root.children.empty?
-        @branches.concat(branches)
-      else
-        @root.children.each do |child|
-          @branches << Tree.new(child, self)
+  def initialize(root = nil, branches = [])
+    @root = root
+    @branches =
+      branches.map do |branch|
+        if branch.is_a? Tree
+          branch
+        else
+          branch = Tree.new(branch)
+          branch.instance_variable_set(:@parent, self)
+          branch
         end
       end
-    end
+
   end
 
   # Broken.
   def inspect
-    string =    "#<Tree: @root=#{self.root.data.inspect},"
+    string =    "#<Tree: @root=#{self.root.inspect},"
     if self.branches.length < 2
       string << " @branches=#{self.branches.inspect}>"
     else
       string << "\n  @branches=[\n"
       self.branches.each do |branch|
-        string << "    #{branch.root.data.inspect}\n"
+        string << "    #{branch.root.inspect}\n"
       end
       string << "  ]\n"
       string << ">"
@@ -113,6 +46,10 @@ class Tree
     self.branches[branch] = tree
   end
 
+  def size
+  end
+  alias :count :size
+
   def max_depth
   end
 
@@ -124,10 +61,38 @@ class Tree
     self.root == nil
   end
 
+  def height
+    if self.branches.empty?
+      0
+    else
+      self.branches.map(&:height).max + 1
+    end
+  end
+
+  def depth(ancestor_tree = nil)
+    depth = 0
+    ancestor = self.parent
+    while ancestor != ancestor_tree
+      ancestor = ancestor.parent
+      depth += 1
+    end
+    depth
+  end
+
   def highest_ancestor
+    ancestor = self
+    while ancestor.parent
+      ancestor = ancestor.parent
+    end
+    ancestor
   end
 
   def to_a
+    array = [self.root]
+    self.branches.each do |branch|
+      array + branch.to_a
+    end
+    array
   end
 
 end

@@ -11,10 +11,6 @@ describe Tree do
       expect(@tree.root).to be_nil
     end
 
-    it "has no parent" do
-      expect(@tree.parent).to be_nil
-    end
-
     it "responds to branches" do
       @tree.should respond_to :branches
     end
@@ -23,20 +19,14 @@ describe Tree do
       expect(@tree.branches).to be_empty
     end
 
-    it "has no leaves" do
+    it "has one leaf" do
       pending "#leaves not implemented" do
-        expect(@tree.leaves).to be_empty
+        expect(@tree.leaves).to eq [nil]
       end
     end
 
-    it "is its own highest ancestor" do
-      pending "#ancestor not implemented" do
-        expect(@tree.highest_ancestor).to equal @tree
-      end
-    end
-
-    it "when converted to array is nil" do
-      expect(@tree.to_a).to be_nil
+    it "when converted to array is [nil]" do
+      expect(@tree.to_a).to eq [nil]
     end
 
   end
@@ -47,7 +37,7 @@ describe Tree do
     end
 
     it "has a root" do
-      @tree.root.should be_instance_of Node
+      expect(@tree.root).not_to be_nil
     end
 
     it "has no branches" do
@@ -56,14 +46,12 @@ describe Tree do
 
     it "has its root as the only leaf" do
       pending "#leaves not implemented" do
-        expect(@tree.leaves).to equal @tree.root
+        expect(@tree.leaves).to eq [@tree.root]
       end
     end
 
-    it "when converted to array is its root's data" do
-      pending "#to_a not implemented" do
-        expect(@tree.to_a).to equal [@tree.root.data]
-      end
+    it "when converted to array is its root" do
+      expect(@tree.to_a).to eq [@tree.root]
     end
 
   end
