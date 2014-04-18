@@ -1,5 +1,6 @@
 require "rspec"
 require "./tree.rb"
+require "./spec/test_trees.rb"
 
 describe Tree do
   context "which is empty" do
@@ -8,9 +9,7 @@ describe Tree do
     end
 
     it "has size one" do
-      pending "#size not implemented" do
-        expect(@tree.size).to equal 1
-      end
+      expect(@tree.size).to equal 1
     end
 
     it "has no root" do
@@ -58,9 +57,7 @@ describe Tree do
     end
 
     it "has size one" do
-      pending "#size not implemented" do
-        expect(@tree.size).to equal 1
-      end
+      expect(@tree.size).to equal 1
     end
 
     it "has a root" do
@@ -85,21 +82,32 @@ describe Tree do
 
   context "with lots of nodes" do
     before :each do
-      @tree = Tree.new(:mammalia,
-        {
-          prototheria: {
-            platypoda: :ornithorhynchidae,
-            tachyglossa: :tachyglossidae,
-          },
-          theriiformes: {
-            allotheria: {
-              multituberculata: {}
-            },
-            triconodonta: {},
-            holotheria: {},
-          },
-        }
-      )
+      @tree = Tree::TAXONOMY
+    end
+
+    it "has the correct size" do
+      expect(@tree.size).to eq 49
+    end
+
+    it "has the correct root" do
+      expect(@tree.root).to eq :mammalia
+    end
+
+    it "has the correct branches" do
+      expect(@tree.branches).not_to be_empty
+      expect(@tree.branches).to include @tree[1]
+      expect(@tree.branches.size).to eq 2
+    end
+
+    it "can be indexed deeply" do
+      expect(@tree[1][2][2][0][0][0][0][0][0][0][0][4][0][0]).to be_a Tree
+    end
+
+    it "fails when indexed too deeply" do
+      expect(@tree[1][2][2][0][0][0][0][0][0][0][0][4][0][0][0]).to be_nil
+      expect(@tree[2]).to be_nil
+      expect {@tree[1][2][2][0][0][0][0][0][0][0][0][4][0][0][0][0]}.to raise_error NoMethodError
+      expect {@tree[2][0]}.to raise_error NoMethodError
     end
   end
 

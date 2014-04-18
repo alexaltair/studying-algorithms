@@ -34,7 +34,6 @@ void insert(Table * table, int key, int value){
     entry->value = value;
 }
 
-// In the event of deleting an Entry in the collision chain, this will really just set the value to 0 and leave the Entry in the chain.
 void delete(Table * table, int key){
     insert(table, key, 0);
 }

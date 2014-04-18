@@ -11,14 +11,18 @@ class Tree
   def initialize(root = nil, branches = [])
     @root = root
     @branches =
-      branches.map do |branch|
-        if branch.is_a? Tree
-          branch
-        else
-          branch = Tree.new(branch)
-          branch.instance_variable_set(:@parent, self)
-          branch
+      if branches.respond_to?(:keys) && branches.respond_to?(:values)
+        branches.map{ |k, v| Tree.new k, v }
+      elsif branches.respond_to? :map
+        branches.map do |branch|
+          if branch.is_a? Tree
+            branch
+          else
+            Tree.new nil, branch
+          end
         end
+      else
+        []
       end
 
   end
@@ -48,17 +52,22 @@ class Tree
   end
 
   def size
+    1 + self.branches.map(&:size).inject(0){|m,e| m+e}
   end
   alias :count :size
 
   def max_depth
   end
 
-  def leaves
+  def leaf?
+    self.branches.empty?
   end
 
   def empty?
-    self.root.nil? && self.branches.empty?
+    self.root.nil? && self.leaf?
+  end
+
+  def leaves
   end
 
   def height
@@ -87,6 +96,7 @@ class Tree
     ancestor
   end
 
+  # This is probably wrong.
   def to_a
     array = [self.root]
     self.branches.each do |branch|
