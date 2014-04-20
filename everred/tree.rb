@@ -2,6 +2,7 @@ require "./monkey_patches.rb"
 require "./tree_traversal.rb"
 
 class Tree
+  include Enumerable
   include Traversal
 
   attr_reader :root, :branches, :parent
@@ -52,7 +53,7 @@ class Tree
   end
 
   def size
-    1 + self.branches.map(&:size).inject(0){|m,e| m+e}
+    1 + self.branches.map(&:size).inject(0, &:+)
   end
   alias :count :size
 

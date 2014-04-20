@@ -8,65 +8,63 @@ class Tree
     2 => {},
   }
 
-  TAXONOMY = Tree.new :mammalia,
-    {
-      prototheria: {
-        platypoda: {
-          ornithorhynchidae: {}
-        },
-        tachyglossa: {
-          tachyglossidae:{}
+  TAXONOMY = Tree.new :mammalia, {
+    prototheria: {
+      platypoda: {
+        ornithorhynchidae: {}
+      },
+      tachyglossa: {
+        tachyglossidae:{}
+      },
+    },
+    theriiformes: {
+      allotheria: {
+        multituberculata: {
+          plagiaulacidae: {},
+          bolodontidae: {},
+          hahnodontidae: {},
+          albionbaataridae: {},
+          arginbaataridae: {},
+          kogaionidae: {},
+          sloanbaataridae: {},
+          cimolodontidae: {},
+          ptilodontidae: {},
+          cimolomyidae: {},
+          eucosmodontidae: {},
+          taeniolabididae: {},
+          ferugliotheriidae: {},
+          sudamericidae: {},
         },
       },
-      theriiformes: {
-        allotheria: {
-          multituberculata: {
-            plagiaulacidae: {},
-            bolodontidae: {},
-            hahnodontidae: {},
-            albionbaataridae: {},
-            arginbaataridae: {},
-            kogaionidae: {},
-            sloanbaataridae: {},
-            cimolodontidae: {},
-            ptilodontidae: {},
-            cimolomyidae: {},
-            eucosmodontidae: {},
-            taeniolabididae: {},
-            ferugliotheriidae: {},
-            sudamericidae: {},
-          },
+      triconodonta: {
+        austrotriconodontidae: {},
+        amphilestidae: {},
+        triconodontidae: {},
+      },
+      holotheria: {
+        chronoperatidae: {},
+        kuehneotheria: {
+          kuehneotheriidae: {},
+          woutersiidae: {},
         },
-        triconodonta: {
-          austrotriconodontidae: {},
-          amphilestidae: {},
-          triconodontidae: {},
-        },
-        holotheria: {
-          chronoperatidae: {},
-          kuehneotheria: {
-            kuehneotheriidae: {},
-            woutersiidae: {},
-          },
-          trechnotheria: {
-            cladotheria: {
-              zatheria: {
-                tribosphenida: {
-                  theria: {
-                    placentalia: {
-                      epitheria: {
-                        preptotheria: {
-                          anagalida: {
-                            zambdalestidae: {},
-                            anagalidae: {},
-                            pseudictopidae: {},
-                            macroscelidea: {
-                              macroscelididae: {}
-                            },
-                            duplicidentata: {
-                              mimotonida: {
-                                mimotonidae: {}
-                              }
+        trechnotheria: {
+          cladotheria: {
+            zatheria: {
+              tribosphenida: {
+                theria: {
+                  placentalia: {
+                    epitheria: {
+                      preptotheria: {
+                        anagalida: {
+                          zambdalestidae: {},
+                          anagalidae: {},
+                          pseudictopidae: {},
+                          macroscelidea: {
+                            macroscelididae: {}
+                          },
+                          duplicidentata: {
+                            mimotonida: {
+                              mimotonidae: {}
                             }
                           }
                         }
@@ -80,7 +78,9 @@ class Tree
         }
       }
     }
+  }
 
+  # Might want to put this in a lambda.
   RANDOM_NUMBERS = Tree.new rand(16), {
     rand(16) => {
       rand(16) => {
