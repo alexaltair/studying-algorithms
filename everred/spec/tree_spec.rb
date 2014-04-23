@@ -1,5 +1,5 @@
 require "rspec"
-require "./tree.rb"
+require "./lib/everred.rb"
 require "./spec/test_trees.rb"
 
 describe Tree do
@@ -40,9 +40,7 @@ describe Tree do
     end
 
     it "has one leaf" do
-      pending "#leaves not implemented" do
-        expect(@tree.leaves).to contain_exactly nil
-      end
+      expect(@tree.leaves).to match_array [nil]
     end
 
     it "when converted to array is [nil]" do
@@ -69,9 +67,7 @@ describe Tree do
     end
 
     it "has its root as the only leaf" do
-      pending "#leaves not implemented" do
-        expect(@tree.leaves).to eq [@tree.root]
-      end
+      expect(@tree.leaves).to eq [@tree.root]
     end
 
     it "when converted to array is its root" do

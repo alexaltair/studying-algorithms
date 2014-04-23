@@ -1,6 +1,6 @@
 require "rspec"
-require "./tree.rb"
-require "./spec/test_trees.rb"
+require "./lib/everred.rb"
+require "test_trees"
 
 describe Traversal do
 
