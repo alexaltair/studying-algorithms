@@ -8,7 +8,11 @@ class Node
   end
 
   def point_to(node)
-    self.edges << node # Change this to an actual edge later
+    self.edges << Edge.new(self, node)
+  end
+
+  def neighbors
+    self.edges.map(&:to_node)
   end
 
 end

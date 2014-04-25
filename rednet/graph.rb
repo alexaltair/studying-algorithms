@@ -2,11 +2,13 @@ class Graph
   # include Enumerable
 
   attr_accessor :nodes
-  attr_reader :edges
 
   def initialize
     @nodes = []
-    @edges = []
+  end
+
+  def edges
+    self.nodes.map{|node| node.edges }.flatten.uniq # I have ideas to optimize this, but you know what they say about premature optimization...
   end
 
   # def each
