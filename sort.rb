@@ -4,7 +4,7 @@ class Array
     array = *self
     return array if array.size <= 1
 
-    pivot = pivot()
+    pivot = quicksort_pivot()
     less_than, middle, greater_than = [], [], []
     array.each do |element|
       if element < pivot
@@ -28,12 +28,12 @@ class Array
     begining = begining.mergesort
     ending = ending.mergesort
 
-    return begining.merge(ending)
+    return begining.sorted_merge(ending)
   end
 
 protected
 
-  def merge(array2)
+  def sorted_merge(array2)
     array1 = *self
     merged = []
 
@@ -55,9 +55,9 @@ protected
   end
 
 private
-
-  def pivot
-    self[0]
+  # Could take a block for pivot, if the elements aren't Numeric.
+  def quicksort_pivot
+    (self[0] + self[-1] + self.sample)/3.0
   end
 
   def break_in_two
